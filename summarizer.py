@@ -12,11 +12,44 @@ client = OpenAI(api_key=os.environ.get('API_KEY'))
 
 def fix_summary(paragraph: str):
     prompt = (
-        f"You are going to fix the summarized text."
-        f"Fix it so that it is precise to the original summary but non repeatitive. "
-        "There should only be one overview summary and one detailed breakdown of everything"
-        "Respond in html format only use ordered list, headings, and unordered list. Remove extras like ``` or the tag/word html and do not use markdowns elements. You may also read inline LaTex and block LaTex formulas"
-    )
+        '''
+        You are a highly-intellectual college student and you are reading the provided material to create a comprehensive summary notes for your upcoming test.
+            Generate a summary notes that covers the whole provided material. It should be clear, concise, and easy to understand.
+            The summary notes should follow these formats: Introduction/Main Topic, The Sub-topics/Sub-Sections, Key Points of each Sub-topics/Sub-Sections, and lastly Overview Summary"
+            Introduction/Main Topic Format: should be two to three sentences long. Should contain a concise background/context of what the whole note summary revolves around. Use an Abstractive Summary which you can rephrase the original texts to be easily understood.
+            Sub-Topic/Sub-Sections Format: should be organized sections about specific ideas relating to the Main Topic. Give a one sentence explanation about this section. Use Extractive Summary (Do not rephrase, change, or replace any words) if there's an explanation or brief description about the Sub-Topic that can be found on the material. Use Abstractive Method (paraphrase) if there is none.
+            Key Points Format: these are points that are inside on each Sub-Topic/Sub-Sections. For clarity use bullet points if the order of the key points doesn't matter and use numbered list if the order of the key points matter. Strictly use Extractive Summary (Do not rephrase, change, or replace any words) in creating key points.
+            Overview Summary: should be one paragraph and contains final thoughts that encapsulates the entire summary note. Mentioning the purpose of the topic. Use an Abstractive Summary on this, use Layman's Term.
+            Highlight the important words, or phrase by making it bold or use annotations to highlight importance of it.
+
+
+            Example Format of the Note Summary:
+
+            Introduction
+            The Renaissance was a transformative period in European history, marking a cultural, artistic, and intellectual revival.
+            Spanning roughly from the 14th to the 17th century, it emphasized the rediscovery of classical knowledge and human potential...
+
+            Key Points
+            The Origins of the Renaissance
+            This section explores the historical conditions that led to the Renaissance's emergence.
+            - Florence, Italy: the place where the Renaissance's began at late 14th century.
+            - Scholars rediscovered ancient Greek and Roman texts.
+            ...
+
+            The Development of the Printing Press
+            This section explains the steps involved in the invention and spread of the printing press, which revolutionized the distribution of knowledge.
+            1. 1440: Johannes Gutenberg invents the movable-type printing press in Germany.
+            2. 1455: Gutenberg prints the first major book, the Gutenberg Bible.
+            ...
+
+            Overview Summary:
+            The Renaissance was a profound period of change, sparking shifts in thought, art, and science. It laid the groundwork for modern education, creative expression,
+            and technological advancements, illustrating the enduring influence of human curiosity and learning on societal progress...
+
+	        RESPOND ONLY in html tags format use ordered list, headings, and unordered list only, no need for a full html body structure use tags directly. Remove extras like ``` or the tag/word html and do not use markdowns elements. You may also read inline LaTex and block LaTex formulas
+
+        '''
+        )
 
     response = client.chat.completions.create(
         model='gpt-4o-mini',
@@ -187,14 +220,6 @@ summarized =summarize(text=textA,
         detail=0.75, 
         model='gpt-4o-mini',
         minimum_chunk_size=500,
-        additional_instructions='''You are a professional tutor and you are reading the provided material to generate comprehensive summary notes for my upcoming test.
-
-                                Generate a summary notes that is clear, concise, and easy to understand.
-
-                                Respond in html format only use ordered list, headings, and unordered list. Remove extras like ``` or the tag/word html and do not use markdowns elements. You may also read inline LaTex and block LaTex formulas
-
-                                The summary notes should contain overview summary (a brief, high-level overview of the main topic covered in the material. Focus on summarizing the core ideas and key concepts in 2-3 sentences), and Detailed Breakdown with Key Points (Break the topic into logical sections or themes. For each section, list the key points or takeaways in a bulleted or numbered format for easy reading). Use h2 as section headers for Overview Summary and Key Points.
-                                ''',
         summarize_recursively=True
     )
 

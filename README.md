@@ -40,7 +40,7 @@ $ python summarizer.py
 ```
 
 ### 5. View the Output
-The output of the program will be saved in the `contents.txt` file. 
+The output of the program will be saved in the `contents.html` file. 
 
 ---
 

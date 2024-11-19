@@ -282,7 +282,7 @@ summarized =summarize(text=textA,
         
     )
 
-file = open('contents.txt', 'w')
+file = open('contents.html', 'w')
 
 file.write(summarized)
 

@@ -5,10 +5,17 @@ from openai import OpenAI
 import os
 import json
 from dotenv import load_dotenv
+import random
 
 load_dotenv()
 
-client = OpenAI(api_key=os.environ.get('API_KEY'))
+bol = True
+
+
+key_list = (os.environ.get('API_KEY'),os.environ.get('CLYDE_KEY'))
+
+print(random.choice(tuple(key_list)))
+client = OpenAI(api_key=random.choice(tuple(key_list)))
 
 def fix_summary(paragraph: str):
     prompt = (
@@ -95,7 +102,7 @@ def fix_summary(paragraph: str):
 
     return title
 
-def get_chat_completion(messages, model='gpt-3.5-turbo-1106'):
+def get_chat_completion(messages, model='gpt-4o-mini'):
     response = client.chat.completions.create(
         model=model,
         messages=messages,
